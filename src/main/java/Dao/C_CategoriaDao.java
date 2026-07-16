@@ -88,6 +88,54 @@ public List<Categoria> doRetrieveAll(){
         
         return c;
     }
+
+	// UPDATE (Modifica una categoria esistente)
+		public void doUpdate(Categoria categoria) {
+			
+			// Diciamo a MySQL: "Aggiorna il nome_categoria DOVE l'id è uguale a..."
+			String query = "UPDATE categoria SET nome_categoria = ? WHERE id = ?";
+			
+			try (Connection con = ConPool.getConnection();
+				 PreparedStatement ps = con.prepareStatement(query)) {
+				
+				// 1° punto interrogativo: il nuovo nome
+				ps.setString(1, categoria.getNomeCategoria());
+				
+				// 2° punto interrogativo: l'ID della categoria da modificare
+				ps.setInt(2, categoria.getId()); 
+				
+				ps.executeUpdate();
+				System.out.println("Categoria aggiornata con successo!");
+				
+			} catch (SQLException e) {
+				System.out.println("Errore in doUpdate (Categoria): " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	// Il metodo DELETE (Cancellare)
+	// Questo è il più semplice di tutti. Non ci serve tutto lo scatolone, ci basta sapere l'ID della categoria da buttare via.
+
+	
+		// DELETE (Cancella una categoria tramite il suo ID)
+		public void doDelete(int id) {
+			
+			// Diciamo a MySQL: "Cancella l'intera riga DOVE l'id è uguale a..."
+			String query = "DELETE FROM categoria WHERE id = ?";
+			
+			try (Connection con = ConPool.getConnection();
+				 PreparedStatement ps = con.prepareStatement(query)) {
+				
+				// Inseriamo l'ID al posto del punto interrogativo
+				ps.setInt(1, id); 
+				
+				ps.executeUpdate();
+				System.out.println("Categoria eliminata con successo!");
+				
+			} catch (SQLException e) {
+				System.out.println("Errore in doDelete (Categoria): " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 }
 
 
