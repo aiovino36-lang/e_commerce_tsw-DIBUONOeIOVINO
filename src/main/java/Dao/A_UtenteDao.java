@@ -54,6 +54,7 @@ try(Connection con=ConPool.getConnection();
 	while(rs.next()) {
 		
 		Utente u=new Utente();
+		u.setId(rs.getInt("id"));
 		u.setTipoUtente(rs.getInt("tipo_utente"));
 		u.setCodiceUtente(rs.getString("codice_utente"));
 		u.setStatoAccount(rs.getInt("stato_account"));
@@ -100,6 +101,7 @@ public Utente doRetreiveByEmailPassword(String email,String password) {
 	
 	if(rs.next()) {
 		u=new Utente();
+		u.setId(rs.getInt("id"));
 		u.setTipoUtente(rs.getInt("tipo_utente"));
         u.setCodiceUtente(rs.getString("codice_utente"));
         u.setStatoAccount(rs.getInt("stato_account"));
