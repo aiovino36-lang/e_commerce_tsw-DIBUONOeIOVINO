@@ -166,6 +166,25 @@ public void doDelete(String codiceUtente) {
         e.printStackTrace();
     }
   }
+
+	public boolean checkEmailExists(String email) {
+    String query = "SELECT id FROM utente WHERE email = ?";
+    
+    try (Connection con = ConPool.getConnection();
+         PreparedStatement ps = con.prepareStatement(query)) {
+        
+        ps.setString(1, email);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            return rs.next(); // Ritorna true se trova almeno un record, false altrimenti
+        }
+        
+    } catch (SQLException e) {
+        System.out.println("Errore in checkEmailExists: " + e.getMessage());
+        e.printStackTrace();
+    }
+    return false;
+}
 }
 
 
